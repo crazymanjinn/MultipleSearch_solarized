@@ -80,7 +80,7 @@ function! s:MultipleSearchInit()
     if exists('g:MultipleSearchMaxColors')
         let s:MaxColors = g:MultipleSearchMaxColors
     else
-        let s:MaxColors = 4
+        let s:MaxColors = 8
     endif
 
     " Define the sequence of colors to use for searches.
