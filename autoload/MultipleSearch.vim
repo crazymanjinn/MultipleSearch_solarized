@@ -1,7 +1,7 @@
 " File:		MultipleSearch.vim (global plugin)
-" Last Changed: 13 Aug 2008
-" Maintainer:	Dan Sharp <dwsharp at hotmail dot com>
-" Version:	1.3
+" Last Changed: 10 Nov 2014
+" Maintainer:	crazymanjinn
+" Version:	1.31
 " License:      Vim License
 
 "-----------------------------------------------------------------------------
@@ -9,9 +9,9 @@
 " on the screen at the same time.  Each search highlights its results in a
 " different color, and all searches are displayed at once.  After the maximum
 " number of colors is used, the script starts over with the first color.
-" 
-" The command syntax is: 
-" :Search <pattern1> 
+"
+" The command syntax is:
+" :Search <pattern1>
 " which will highlight all occurrences of <pattern1> in the current buffer.  A
 " subsequent :Search <pattern2> will highlight all occurrences of <pattern2>
 " in the current buffer, retaining the highlighting of <pattern1> as well.
@@ -24,13 +24,13 @@
 "
 " The :SearchBuffers command works just like :Search, but the search occurs in
 " all currently listed buffers (i.e., those that appear in the output of :ls).
-" The match in all buffers will have the same color.  This is different than 
+" The match in all buffers will have the same color.  This is different than
 " :bufdo Search <pattern> because in that case, each buffer will highlight the
 " match in a different color.
-" 
+"
 " To clear the highlighting, issue the command :SearchReset (for the current
 " buffer) or :SearchBuffersReset (for all buffers).
-" 
+"
 " You can specify the maximum number of different colors to use by setting the
 " g:MultipleSearchMaxColors variable in your .vimrc.  The default setting is
 " four, but the script should handle as much as your terminal / GUI can
@@ -76,7 +76,7 @@ endfun
 " plugin was first loaded.
 " -----
 function! s:MultipleSearchInit()
-    " Specify a maximum number of colors to use. 
+    " Specify a maximum number of colors to use.
     if exists('g:MultipleSearchMaxColors')
         let s:MaxColors = g:MultipleSearchMaxColors
     else
@@ -89,6 +89,8 @@ function! s:MultipleSearchInit()
     else
         let s:ColorSequence = "red,yellow,blue,green,magenta,cyan,gray,brown"
     endif
+    let s:ColorSequence_sol = "#dc322f,#b58900,#268bd2,#859900,#d33682,#2aa198,#839496,#cb4b16"
+
 
     " Define the text color for searches, so that it can still be read against the
     " colored background.
@@ -97,6 +99,7 @@ function! s:MultipleSearchInit()
     else
         let s:TextColorSequence = "white,black,white,black,white,black,black,white"
     endif
+    let s:TextColorSequence_sol = "#fdf6e3,#002b36,#fdf6e3,#002b36,#fdf6e3,#002b36,#002b36,#fdf6e3"
 
     " Start off with the first color
     let s:colorToUse = 0
@@ -113,9 +116,11 @@ function! s:MultipleSearchInit()
         " Define the colors to use
 	let bgColor = s:Strntok(s:ColorSequence, ',', loopCount + 1)
 	let fgColor = s:Strntok(s:TextColorSequence, ',', loopCount + 1)
+    let bgColor_sol = s:Strntok(s:ColorSequence_sol, ',', loopCount + 1)
+    let fgColor_sol = s:Strntok(s:TextColorSequence_sol, ',', loopCount + 1)
         execute 'highlight MultipleSearch' . loopCount
-           \ . ' ctermbg=' . bgColor . ' guibg=' . bgColor
-           \ . ' ctermfg=' . fgColor . ' guifg=' . fgColor
+           \ . ' ctermbg=' . bgColor . ' guibg=' . bgColor_sol
+           \ . ' ctermfg=' . fgColor . ' guifg=' . fgColor_sol
         let loopCount = loopCount + 1
     endwhile
 endfunction
@@ -169,7 +174,7 @@ function! s:DoSearch(useSearch, forwhat)
     execute 'silent syntax clear ' . a:useSearch
 
     " Should it be a case-sensitive match or case-insensitive?
-    if &ignorecase == 1  
+    if &ignorecase == 1
         " If 'smartcase' is on and our search pattern has an upper-case
         " character, do a case sensitive match.
         if &smartcase == 1
@@ -322,18 +327,18 @@ let &cpo = s:save_cpo
 " Clear the current search selections and start over with the first color in
 " the sequence.
 if !(exists(":SearchReset") == 2)
-    command -nargs=0 SearchReset :silent call <SID>MultipleSearchReset(0) 
+    command -nargs=0 SearchReset :silent call <SID>MultipleSearchReset(0)
 endif
 
 " Clear the current search selections and start over with the first color in
 " the sequence.
 if !(exists(":SearchBuffersReset") == 2)
-    command -nargs=0 SearchBuffersReset :silent call <SID>MultipleSearchReset(1) 
+    command -nargs=0 SearchBuffersReset :silent call <SID>MultipleSearchReset(1)
 endif
 
 " Reinitialize the script after changing one of the global preferences.
 if !(exists(":SearchReinit") == 2)
-    command -nargs=0 SearchReinit :silent call <SID>MultipleSearchInit() 
+    command -nargs=0 SearchReinit :silent call <SID>MultipleSearchInit()
 endif
 
 " Set the current search pattern to the next one in the list

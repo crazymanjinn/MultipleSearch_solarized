@@ -1,12 +1,13 @@
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=479
+Modified to use Solarized color scheme with MacVim
 
 MultipleSearch allows you to have the results of multiple searches displayed
 on the screen at the same time.  Each search highlights its results in a
 different color, and all searches are displayed at once.  After the maximum
 number of colors is used, the script starts over with the first color.
- 
-The command syntax is: 
-:Search <pattern1> 
+
+The command syntax is:
+:Search <pattern1>
 which will highlight all occurrences of <pattern1> in the current buffer.  A
 subsequent :Search <pattern2> will highlight all occurrences of <pattern2>
 in the current buffer, retaining the highlighting of <pattern1> as well.
@@ -21,7 +22,7 @@ The :SearchBuffers command works just like :Search, but the search occurs in all
 
 To clear the highlighting, issue the command
 :SearchReset (for the current buffer) or :SearchBuffersReset (for all buffers).
- 
+
 You can specify the maximum number of different colors to use by setting the
 g:MultipleSearchMaxColors variable in your .vimrc.  The default setting is
 four, but the script should handle as much as your terminal / GUI can
