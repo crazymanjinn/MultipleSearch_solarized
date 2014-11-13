@@ -1,7 +1,7 @@
 " File:		MultipleSearch.vim (global plugin)
 " Last Changed: 10 Nov 2014
 " Maintainer:	crazymanjinn
-" Version:	1.31
+" Version:	1.32
 " License:      Vim License
 
 "-----------------------------------------------------------------------------
@@ -80,7 +80,7 @@ function! s:MultipleSearchInit()
     if exists('g:MultipleSearchMaxColors')
         let s:MaxColors = g:MultipleSearchMaxColors
     else
-        let s:MaxColors = 8
+        let s:MaxColors = 7
     endif
 
     " Define the sequence of colors to use for searches.
@@ -89,7 +89,7 @@ function! s:MultipleSearchInit()
     else
         let s:ColorSequence = "red,yellow,blue,green,magenta,cyan,gray,brown"
     endif
-    let s:ColorSequence_sol = "#dc322f,#b58900,#268bd2,#859900,#d33682,#2aa198,#839496,#cb4b16"
+    let s:ColorSequence_sol = "#dc322f,#268bd2,#859900,#d33682,#2aa198,#839496,#cb4b16"
 
 
     " Define the text color for searches, so that it can still be read against the
@@ -99,7 +99,7 @@ function! s:MultipleSearchInit()
     else
         let s:TextColorSequence = "white,black,white,black,white,black,black,white"
     endif
-    let s:TextColorSequence_sol = "#fdf6e3,#002b36,#fdf6e3,#002b36,#fdf6e3,#002b36,#002b36,#fdf6e3"
+    let s:TextColorSequence_sol = "#fdf6e3,#fdf6e3,#002b36,#fdf6e3,#002b36,#002b36,#fdf6e3"
 
     " Start off with the first color
     let s:colorToUse = 0
